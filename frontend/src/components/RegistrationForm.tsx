@@ -12,7 +12,7 @@ interface FormErrors {
   phone?: string;
 }
 
-const API_URL = "http://localhost:5000/api/enquiry";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/enquiry";
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({

@@ -7,7 +7,14 @@ const enquiryRoutes = require("./routes/enquiryRoutes");
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for production
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Optional: connect to MongoDB if MONGO_URI is provided
@@ -28,7 +35,12 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found." });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
+
