@@ -28,7 +28,13 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found." });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Only start a listening server when run directly (local dev).
+// On Vercel the app is imported and invoked as a serverless function.
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
