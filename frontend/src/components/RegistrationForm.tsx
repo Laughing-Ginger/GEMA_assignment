@@ -12,7 +12,9 @@ interface FormErrors {
   phone?: string;
 }
 
-const API_URL = "http://localhost:5000/api/enquiry";
+// Relative path: same-origin in production (Vercel serves /api via the
+// serverless backend), and proxied to the local backend in dev (see vite.config.ts).
+const API_URL = "/api/enquiry";
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({

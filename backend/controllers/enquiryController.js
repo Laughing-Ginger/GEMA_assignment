@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Enquiry = require("../models/Enquiry");
+const connectDB = require("../config/db");
 
 const NAME_REGEX = /^.{2,}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,6 +42,9 @@ const createEnquiry = async (req, res) => {
       phone: phone.trim(),
       workshop: "AI & Robotics Summer Workshop",
     };
+
+    // Ensure the DB connection is established (cached across invocations).
+    await connectDB();
 
     // ---- Save to MongoDB if connected, else fallback to in-memory ----
     if (mongoose.connection.readyState === 1) {
